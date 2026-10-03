@@ -64,6 +64,13 @@ if (-not (Test-Path $msbuild)) { throw 'MSVC COMPILE FAILURE: MSBuild not found'
   "Build time (UTC): $([DateTime]::UtcNow.ToString('u'))") |
     Set-Content (Join-Path $out 'BUILD_INFO.txt')
 
+$tclProject = 'Win64\proj\tcl\tcl.vcxproj'
+$tclLog = Join-Path $out 'MSBUILD_TCL.log'
+& $msbuild $tclProject '/m' '/p:Configuration=Release' '/p:Platform=x64' '/v:normal' '/nologo' '/fl' "/flp:logfile=$tclLog;verbosity=normal" 2>&1 |
+    Tee-Object -FilePath (Join-Path $out 'MSBUILD_TCL_CONSOLE.log')
+if ($LASTEXITCODE -ne 0) { throw "MSVC COMPILE FAILURE: OpenSees tcl.lib; see $tclLog" }
+if (-not (Test-Path 'Win64\lib\release\tcl.lib')) { throw 'LINK FAILURE: OpenSees tcl.lib was not produced' }
+
 $log = Join-Path $out 'MSBUILD_FULL.log'
 & $msbuild $project '/m' '/p:Configuration=Release' '/p:Platform=x64' '/v:diagnostic' '/nologo' '/fl' "/flp:logfile=$log;verbosity=diagnostic" 2>&1 |
     Tee-Object -FilePath (Join-Path $out 'MSBUILD_CONSOLE.log')
