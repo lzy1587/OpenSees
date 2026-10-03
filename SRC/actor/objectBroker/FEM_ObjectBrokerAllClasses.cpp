@@ -59,6 +59,7 @@
 #include "BoucWenMaterial.h"		//SAJalali
 #include "SPSW02.h"			//SAJalali
 #include "ElasticMaterial.h"
+#include "VSFSIBBreakaway.h"
 #include "ElasticMultiLinear.h"
 #include "ElasticPowerFunc.h"
 #include "Elastic2Material.h"
@@ -1310,6 +1311,8 @@ FEM_ObjectBrokerAllClasses::getNewUniaxialMaterial(int classTag)
 		    
 	case MAT_TAG_HystereticPoly:			// Salvatore Sessa
 	    return new HystereticPoly();
+	case MAT_TAG_VSFSIBBreakaway:
+	    return new VSFSIBBreakaway();
 
 
 	default:

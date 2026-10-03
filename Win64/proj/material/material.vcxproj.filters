@@ -235,6 +235,9 @@
     <ClCompile Include="..\..\..\SRC\material\uniaxial\HystereticMaterial.cpp">
       <Filter>uniaxial</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\SRC\material\uniaxial\VSFSIBBreakaway.cpp">
+      <Filter>uniaxial</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\SRC\material\uniaxial\ImpactMaterial.cpp">
       <Filter>uniaxial</Filter>
     </ClCompile>
@@ -1487,6 +1490,9 @@
       <Filter>uniaxial</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\SRC\material\uniaxial\HystereticMaterial.h">
+      <Filter>uniaxial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SRC\material\uniaxial\VSFSIBBreakaway.h">
       <Filter>uniaxial</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\SRC\material\uniaxial\ImpactMaterial.h">

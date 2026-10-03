@@ -1,0 +1,34 @@
+name: OpenSeesPy 3.3.0 VSFSIBBreakaway
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+      - name: Build and smoke-test the v3.3.0 Visual Studio target
+        shell: pwsh
+        run: |
+          try { ./.github/scripts/build_vsfsib_windows.ps1 }
+          catch {
+            New-Item -ItemType Directory -Force -Path ci_out | Out-Null
+            $_ | Out-String | Add-Content ci_out/BUILD_FAILURE_SUMMARY.txt
+            throw
+          }
+      - name: Upload binary and complete diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenSeesPy-3.3.0-VSFSIBBreakaway-win64
+          path: |
+            ci_out/**
+            Win64/bin/opensees.pyd
+          if-no-files-found: warn

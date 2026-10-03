@@ -69,6 +69,7 @@ UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 // material class exists in a package yet to be loaded
 
 void* OPS_ElasticMaterial();
+extern "C" void* OPS_VSFSIBBreakaway();
 void* OPS_ElasticPPMaterial();
 void* OPS_ParallelMaterial();
 void* OPS_SeriesMaterial();
@@ -217,6 +218,7 @@ namespace {
 
     static int setUpUniaxialMaterials(void) {
 	uniaxialMaterialsMap.insert(std::make_pair("Elastic", &OPS_ElasticMaterial));
+	uniaxialMaterialsMap.insert(std::make_pair("VSFSIBBreakaway", &OPS_VSFSIBBreakaway));
 	uniaxialMaterialsMap.insert(std::make_pair("ElasticPP", &OPS_ElasticPPMaterial));
 	uniaxialMaterialsMap.insert(std::make_pair("Parallel", &OPS_ParallelMaterial));
 	uniaxialMaterialsMap.insert(std::make_pair("Series", &OPS_SeriesMaterial));
