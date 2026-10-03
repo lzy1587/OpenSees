@@ -26,6 +26,17 @@ if (-not (Test-Path (Join-Path $pyInclude 'Python.h')) -or -not (Test-Path (Join
 }
 Get-Item (Join-Path $pyInclude 'Python.h'), (Join-Path $pyLib 'python38.lib') | Select-Object FullName,Length | Out-String | Add-Content $pyAudit
 
+$intelRoot = 'C:\Program Files (x86)\Intel\oneAPI'
+$ifconsol = Get-ChildItem -LiteralPath $intelRoot -Filter 'ifconsol.lib' -File -Recurse -ErrorAction SilentlyContinue |
+    Where-Object { $_.FullName -match 'intel64' } | Select-Object -First 1
+if (-not $ifconsol) { throw 'INTEL RUNTIME FAILURE: ifconsol.lib not found' }
+$intelLib = $ifconsol.DirectoryName
+foreach ($name in @('libifcoremt.lib', 'libmmt.lib')) {
+    if (-not (Test-Path (Join-Path $intelLib $name))) { throw "INTEL RUNTIME FAILURE: $name missing from $intelLib" }
+}
+@("Intel library directory: $intelLib", "ifconsol.lib: $($ifconsol.FullName)") |
+    Set-Content (Join-Path $out 'INTEL_RUNTIME_AUDIT.txt')
+
 $project = 'Win64\proj\openSeesPy38\OpenSeesPy38.vcxproj'
 $original = Get-Content -LiteralPath $project -Raw
 $fromInclude = 'c:\Program Files\Python38\include'
@@ -34,7 +45,7 @@ if (-not $original.Contains($fromInclude) -or -not $original.Contains($fromLib))
     throw 'PYTHON ABI FAILURE: unexpected v3.3.0 vcxproj Python paths'
 }
 Copy-Item -LiteralPath $project -Destination (Join-Path $out 'OpenSeesPy38.original.vcxproj')
-Set-Content -LiteralPath $project -Value $original.Replace($fromInclude, $pyInclude).Replace($fromLib, $pyLib) -NoNewline
+Set-Content -LiteralPath $project -Value $original.Replace($fromInclude, $pyInclude).Replace($fromLib, $pyLib).Replace('c:\Program Files\tcl\lib;', "$intelLib;c:\Program Files\tcl\lib;") -NoNewline
 git diff -- $project | Set-Content (Join-Path $out 'github_python_path_patch.diff')
 [xml](Get-Content -LiteralPath $project -Raw) | Out-Null
 
