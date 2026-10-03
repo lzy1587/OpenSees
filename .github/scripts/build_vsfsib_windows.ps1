@@ -92,6 +92,7 @@ $pyd = Join-Path $root 'Win64\bin\opensees.pyd'
 if (-not (Test-Path $pyd)) { throw 'PYD PACKAGING FAILURE: build exited 0 but opensees.pyd is absent' }
 Copy-Item 'C:\Program Files\tcl\bin\tcl86t.dll' (Split-Path $pyd)
 Copy-Item 'C:\Program Files\tcl\bin\tk86t.dll' (Split-Path $pyd)
+Copy-Item 'C:\Program Files\tcl\bin\zlib1.dll' (Split-Path $pyd)
 $binary = Get-Item $pyd
 $hash = (Get-FileHash -LiteralPath $pyd -Algorithm SHA256).Hash
 @("Binary path: $($binary.FullName)", "Size: $($binary.Length) bytes", "SHA256: $hash") |

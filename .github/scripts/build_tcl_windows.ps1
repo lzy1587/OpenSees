@@ -24,3 +24,6 @@ $tkLib = 'C:\Program Files\tcl\lib\tk86t.lib'
 foreach ($file in @($include, $tclLib, $tkLib)) {
     if (-not (Test-Path $file)) { throw "TCL DEPENDENCY FAILURE: missing installed $file" }
 }
+$zlib = Join-Path $tcl 'compat\zlib\win64\zlib1.dll'
+if (-not (Test-Path $zlib)) { throw 'TCL DEPENDENCY FAILURE: bundled x64 zlib1.dll missing' }
+Copy-Item -LiteralPath $zlib -Destination 'C:\Program Files\tcl\bin\zlib1.dll'
