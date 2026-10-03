@@ -28,7 +28,7 @@ Get-Item (Join-Path $pyInclude 'Python.h'), (Join-Path $pyLib 'python38.lib') | 
 
 $intelRoot = 'C:\Program Files (x86)\Intel\oneAPI'
 $ifconsol = Get-ChildItem -LiteralPath $intelRoot -Filter 'ifconsol.lib' -File -Recurse -ErrorAction SilentlyContinue |
-    Where-Object { $_.FullName -match 'intel64' } | Select-Object -First 1
+    Select-Object -First 1
 if (-not $ifconsol) { throw 'INTEL RUNTIME FAILURE: ifconsol.lib not found' }
 $intelLib = $ifconsol.DirectoryName
 foreach ($name in @('libifcoremt.lib', 'libmmt.lib')) {
