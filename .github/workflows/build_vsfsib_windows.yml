@@ -31,4 +31,6 @@ jobs:
           path: |
             ci_out/**
             Win64/bin/opensees.pyd
+            Win64/bin/tcl86t.dll
+            Win64/bin/tk86t.dll
           if-no-files-found: warn

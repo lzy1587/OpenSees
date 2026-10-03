@@ -44,6 +44,7 @@ $vs = (& $vswhere -latest -products '*' -property installationPath).Trim()
 if (-not $vs) { throw 'MSVC COMPILE FAILURE: Visual Studio not found' }
 $msbuild = Join-Path $vs 'MSBuild\Current\Bin\MSBuild.exe'
 if (-not (Test-Path $msbuild)) { throw 'MSVC COMPILE FAILURE: MSBuild not found' }
+& (Join-Path $PSScriptRoot 'build_tcl_windows.ps1') -VsPath $vs -OutDir $out
 @("Source commit: $(git rev-parse HEAD)", "Base tag: v3.3.0 ($expected)",
   "Runner: $env:RUNNER_OS / windows-2022", "Visual Studio: $vs",
   "MSBuild: $(& $msbuild -version -nologo | Select-Object -Last 1)",
@@ -71,6 +72,8 @@ if ($buildExit -ne 0) {
 
 $pyd = Join-Path $root 'Win64\bin\opensees.pyd'
 if (-not (Test-Path $pyd)) { throw 'PYD PACKAGING FAILURE: build exited 0 but opensees.pyd is absent' }
+Copy-Item 'C:\Program Files\tcl\bin\tcl86t.dll' (Split-Path $pyd)
+Copy-Item 'C:\Program Files\tcl\bin\tk86t.dll' (Split-Path $pyd)
 $binary = Get-Item $pyd
 $hash = (Get-FileHash -LiteralPath $pyd -Algorithm SHA256).Hash
 @("Binary path: $($binary.FullName)", "Size: $($binary.Length) bytes", "SHA256: $hash") |

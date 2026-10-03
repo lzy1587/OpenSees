@@ -16,12 +16,15 @@ if str(pyd.resolve()).lower().startswith(str(Path(sys.prefix).resolve()).lower()
     raise SystemExit("Refusing to test a module inside the Python installation")
 python_dlls = Path(sys.base_prefix) / "DLLs"
 _dll_directories = []
+_dll_directories.append(os.add_dll_directory(str(pyd.parent.resolve())))
+tcl_built = pyd.parent / "tcl86t.dll"
+if tcl_built.is_file():
+    ctypes.WinDLL(str(tcl_built))
 if python_dlls.is_dir():
     _dll_directories.append(os.add_dll_directory(str(python_dlls)))
     tcl = python_dlls / "tcl86t.dll"
-    if tcl.is_file():
+    if not tcl_built.is_file() and tcl.is_file():
         ctypes.WinDLL(str(tcl))
-_dll_directories.append(os.add_dll_directory(str(pyd.parent.resolve())))
 
 spec = importlib.util.spec_from_file_location("opensees", str(pyd))
 if spec is None or spec.loader is None:
