@@ -285,6 +285,7 @@
     <ClCompile Include="..\..\..\SRC\element\XMUelements\AV3D4QuadWithSensitivity.cpp" />
     <ClCompile Include="..\..\..\SRC\element\XMUelements\VS3D4QuadWithSensitivity.cpp" />
     <ClCompile Include="..\..\..\SRC\element\zeroLength\CoupledZeroLength.cpp" />
+    <ClCompile Include="..\..\..\SRC\element\zeroLength\RockingLimit20.cpp" />
     <ClCompile Include="..\..\..\SRC\element\zeroLength\TclZeroLength.cpp" />
     <ClCompile Include="..\..\..\SRC\element\zeroLength\ZeroLength.cpp" />
     <ClCompile Include="..\..\..\SRC\element\zeroLength\ZeroLengthVG_HG.cpp" />
@@ -559,6 +560,7 @@
     <ClInclude Include="..\..\..\SRC\element\XMUelements\AV3D4QuadWithSensitivity.h" />
     <ClInclude Include="..\..\..\SRC\element\XMUelements\VS3D4QuadWithSensitivity.h" />
     <ClInclude Include="..\..\..\SRC\element\zeroLength\CoupledZeroLength.h" />
+    <ClInclude Include="..\..\..\SRC\element\zeroLength\RockingLimit20.h" />
     <ClInclude Include="..\..\..\SRC\element\zeroLength\ZeroLength.h" />
     <ClInclude Include="..\..\..\SRC\element\zeroLength\ZeroLengthContact2D.h" />
     <ClInclude Include="..\..\..\SRC\element\zeroLength\ZeroLengthContact3D.h" />
